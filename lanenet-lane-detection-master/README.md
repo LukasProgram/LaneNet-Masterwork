@@ -10,7 +10,7 @@ pip3 install -r requirements.txt
 ```
 
 ## Test model
-In order to test the network download the trained lanenet model weights files from [model_weights](www.google.de).
+In order to test the network download the trained lanenet model weights files from [model_weights](https://nextcloud.os.in.tum.de/s/model_weights).
 Move the file in the folder model/speed_dreams
 
 Testing a single image on the trained model can be executed with the following command:
@@ -48,15 +48,16 @@ If the save_dir argument is set, the results are saved under this path.
 
 ## Train a model
 #### Data Preparation
-As described above the data is generated based on the simulation program "Speed Dreams". In order to generate a dataset follow the steps in: [matlab-dataset](https://github.com/LukasProgram/LaneNet-Masterwork/tree/master/matlab-dataset).
+As described above the data is generated based on the simulation program "Speed Dreams". In order to generate a dataset follow the steps in: [matlab-dataset](https://github.com/LukasProgram/LaneNet-Masterwork/tree/master/matlab-dataset). In our case, two datasets were created. The first was split into 200 training images, 50 validation images and 50 test images. The second dataset was split into 400 training images, 50 validation images and 50 test images.The first data set consists mainly of images with straight lanes. On the other hand, the second data set also contains images with curved lanes. Both datasets are available to download here [speed_dreams_dataset](https://nextcloud.os.in.tum.de/s/speed_dreams_dataset)
 
 After generating the dataset, move it to the data folder and use the following command to get a train.txt and a val.txt file.
+
 ```
 python3 generate_speedDreams_dataset.py
 --src_dir /data/
 ```
 
-The paths in the train.txt file indicate which images are taken for the training. The paths in the val.txt file indicate which images are taken for the validation process. The training samples are consist of three components. Moreover, a binary segmentation label file, a instance segmentation label file and the original image ate generated, which are requrired for the training process. The image size for training is scaled based on the value in the config file.
+The paths in the train.txt file indicate which images are taken for the training. The paths in the val.txt file indicate which images are taken for the validation process. The training samples are consist of three components. Moreover, a binary segmentation label file, an instance segmentation label file, and the original image ate generated, which are required for the training process. The image size for training is scaled based on the value in the config file.
 
 The generate_speedDreams_dataset.py script can be also used to define the size of the validation set and to automatically create it instead of copying and pasting the paths between text files.
 
@@ -119,4 +120,4 @@ python3 -m tensorflow.python.tools.optimize_for_inference
 lanenet_model/pix_embedding_relu'
 ```
 
-The result is a binary file named graph_optimized.pb, which can be load with the tensorflow API for mobile devices.
+The result is a binary file named graph_optimized.pb, which can be load with the tensorflow API for mobile devices. Our inference graph files are available here [graph_weights](https://nextcloud.os.in.tum.de/s/graph_files)
