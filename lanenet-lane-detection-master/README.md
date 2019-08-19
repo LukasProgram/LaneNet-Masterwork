@@ -54,10 +54,17 @@ After generating the dataset, move it to the data folder and use the following c
 ```
 python3 generate_speedDreams_dataset.py
 --src_dir /data/
---val_size 50
 ```
 
 The paths in the train.txt file indicate which images are taken for the training. The paths in the val.txt file indicate which images are taken for the validation process. The training samples are consist of three components. Moreover, a binary segmentation label file, a instance segmentation label file and the original image ate generated, which are requrired for the training process. The image size for training is scaled based on the value in the config file.
+
+The generate_speedDreams_dataset.py script can be also used to define the size of the validation set and to automatically create it instead of copying and pasting the paths between text files.
+
+```
+python3 generate_speedDreams_dataset.py
+--src_dir /data/
+--val_size "validation set size"
+```
 
 #### Train model
 In the final training the epoches are 40000, batch size 2. Besides, all training and validation parametes are listed in the global_configuration/config.py
@@ -65,11 +72,16 @@ In the final training the epoches are 40000, batch size 2. Besides, all training
 For the encoder stage the vgg16 is used, which need to be download are moved in the data folder [VGG16](https://github.com/tensorflow/models/tree/master/research/slim#pre-trained-models). According to [MaybeShewill](https://github.com/MaybeShewill-CV/lanenet-lane-detection), also a dense model can be used. To start the training process the following command must be execuded:
 
 ```
-python tools/train_lanenet.py --net vgg --dataset_dir data/training_data_example/
+python tools/train_lanenet.py 
+--net vgg 
+--dataset_dir data/training_data_example/
 ```
 You can also continue the training process from the snapshot by
 ```
-python tools/train_lanenet.py --net vgg --dataset_dir data/training_data_example/ --weights_path path/to/your/last/checkpoint
+python tools/train_lanenet.py 
+--net vgg 
+--dataset_dir data/training_data_example/ 
+--weights_path path/to/your/last/checkpoint
 ```
 
 After the training is finished the following files are generated under */model*, which are used for inference:
