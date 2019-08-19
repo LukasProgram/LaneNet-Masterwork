@@ -1,33 +1,19 @@
-# LaneNet-Lane-Detection
-Use tensorflow to implement a Deep Neural Network for real time lane detection mainly based on the IEEE IV conference 
-paper "Towards End-to-End Lane Detection: an Instance Segmentation Approach".You can refer to their paper for details 
-https://arxiv.org/abs/1802.05591. This model consists of a encoder-decoder stage, binary semantic segmentation stage 
-and instance semantic segmentation using discriminative loss function for real time lane detection task.
-
-The main network architecture is as follows:
-
-`Network Architecture`
-![NetWork_Architecture](/data/source_image/network_architecture.png)
+# LaneNet-Lane-Detection 
+A Deep Neural Network for real time lane detection mainly based on the paper https://arxiv.org/abs/1802.05591.
+This implementation is an extension of [MaybeShewill](https://github.com/MaybeShewill-CV/lanenet-lane-detection),that uses as input data images generated from the simulation program [Speed Dreams](http://www.speed-dreams.org/)
 
 ## Installation
-This software has only been tested on ubuntu 16.04(x64), python3.5, cuda-9.0, cudnn-7.0 with a GTX-1070 GPU. 
-To install this software you need tensorflow 1.10.0 and other version of tensorflow has not been tested but I think 
-it will be able to work properly in tensorflow above version 1.10. Other required package you may install them by
-
+This software has been tested on ubuntu 16.04(x64), python3.5, cuda-10.0, cudnn-7.4.1.5 with a RTX-2080 GPU and a TITAN V. 
+To install this software you need at least tensorflow 1.10.0 or higher (works for 1.11 and 1.12 as well)
 ```
 pip3 install -r requirements.txt
 ```
 
 ## Test model
-In this repo I uploaded a model trained on tusimple lane dataset [Tusimple_Lane_Detection](http://benchmark.tusimple.ai/#/).
-The deep neural network inference part can achieve around a 50fps which is similar to the description in the paper. But
-the input pipeline I implemented now need to be improved to achieve a real time lane detection system.
+In order to test the network download the trained lanenet model weights files from [model_weights](www.google.de).
+Move the file in the folder model/speed_dreams
 
-The trained lanenet model weights files are stored in 
-[new_lanenet_model_file](https://www.dropbox.com/sh/tnsf0lw6psszvy4/AAA81r53jpUI3wLsRW6TiPCya?dl=0). You can 
-download the model and put them in folder model/tusimple_lanenet/
-
-You can test a single image on the trained model as follows
+Testing a single image on the trained model can be executed with the following command
 
 ```
 python tools/test_lanenet.py --is_batch False --batch_size 1 
@@ -106,57 +92,3 @@ The `Binary Segmentation loss` drops as follows:
 
 The `Instance Segmentation loss` drops as follows:  
 ![Training instance_seg_loss](/data/source_image/instance_seg_loss.png)
-
-## Experiment
-The accuracy during training process rises as follows: 
-![Training accuracy](/data/source_image/accuracy.png)
-
-Please cite my repo [lanenet-lane-detection](https://github.com/MaybeShewill-CV/lanenet-lane-detection) if you use it.
-
-## Recently updates 2018.11.10
-Adjust some basic cnn op according to the new tensorflow api. Use the 
-traditional SGD optimizer to optimize the whole model instead of the
-origin Adam optimizer used in the origin paper. I have found that the
-SGD optimizer will lead to more stable training process and will not 
-easily stuck into nan loss which may often happen when using the origin
-code.
-
-I have uploaded a new lanenet model trained on tusimple dataset using the
-new code here [new_lanenet_model_file](https://www.dropbox.com/sh/tnsf0lw6psszvy4/AAA81r53jpUI3wLsRW6TiPCya?dl=0).
-You may download the new model weights and update the new code. To update
-the new code you just need to
-
-```
-git pull origin master
-```
-The rest are just the same as which mentioned above. And recently I will 
-release a new model trained on culane dataset.
-
-## Recently updates 2018.12.13
-Since a lot of user want a automatic tools to generate the training samples
-from the Tusimple Dataset. I upload the tools I use to generate the training
-samples. You need to firstly download the Tusimple dataset and unzip the 
-file to your local disk. Then run the following command to generate the 
-training samples and the train.txt file.
-
-```angular2html
-python tools/generate_tusimple_dataset.py --src_dir path/to/your/unzipped/file
-```
-
-The script will make the train folder and the test folder. The training 
-samples of origin rgb image, binary label image, instance label image will
-be automatically generated in the training/gt_image, training/gt_binary_image,
-training/gt_instance_image folder.You may check it yourself before start
-the training process.
-
-Pay attention that the script only process the training samples and you 
-need to select several lines from the train.txt to generate your own 
-val.txt file. In order to obtain the test images you can modify the 
-script on your own.
-
-## TODO
-- [x] Add a embedding visualization tools to visualize the embedding feature map
-- [x] Add detailed explanation of training the components of lanenet separately.
-- [x] Training the model on different dataset
-- ~~[ ] Adjust the lanenet hnet model and merge the hnet model to the main lanenet model~~
-- [ ] Change the normalization function from BN to GN
