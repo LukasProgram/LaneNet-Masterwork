@@ -44,31 +44,25 @@ python tools/test_lanenet.py --is_batch True --batch_size 2 --save_dir data/tusi
 --weights_path path/to/your/model_weights_file 
 --image_path data/tusimple_test_image/
 ```
-If you set the save_dir argument the result will be saved in that folder or the result will not be saved but be 
-displayed during the inference process holding on 3 seconds per image. I test the model on the whole tusimple lane 
-detection dataset and make it a video. You may catch a glimpse of it bellow.
-`Tusimple test dataset gif`
-![tusimple_batch_test_gif](/data/source_image/lanenet_batch_test.gif)
+If the save_dir argument is set, the results are saved under this path.
 
-## Train your own model
+## Train a model
 #### Data Preparation
-Firstly you need to organize your training data refer to the data/training_data_example folder structure. And you need 
-to generate a train.txt and a val.txt to record the data used for training the model. 
+As described above the data is generated based on the simulation program "Speed Dreams". In order to generate a dataset follow the steps in: [matlab-dataset](https://github.com/LukasProgram/LaneNet-Masterwork/tree/master/matlab-dataset).
 
-The training samples are consist of three components. A binary segmentation label file and a instance segmentation label
-file and the original image. The binary segmentation use 255 to represent the lane field and 0 for the rest. The 
-instance use different pixel value to represent different lane field and 0 for the rest.
+After generating the dataset, move it to the data folder and use the following command to get a train.txt and a val.txt file.
+```
+python3 generate_speedDreams_dataset.py
+--src_dir /data/
+--val_size 50
+```
 
-All your training image will be scaled into the same scale according to the config file.
+The paths in the train.txt file indicate which images are taken for the training. The paths in the val.txt file indicate which images are taken for the validation process. The training samples are consist of three components. Moreover, a binary segmentation label file, a instance segmentation label file and the original image ate generated, which are requrired for the training process. The image size for training is scaled based on the value in the config file.
 
 #### Train model
-In my experiment the training epochs are 200000, batch size is 8, initialized learning rate is 0.0005 and decrease by 
-multiply 0.1 every 100000 epochs. About training parameters you can check the global_configuration/config.py for details. 
-You can switch --net argument to change the base encoder stage. If you choose --net vgg then the vgg16 will be used as 
-the base encoder stage and a pretrained parameters will be loaded and if you choose --net dense then the dense net will 
-be used as the base encoder stage instead and no pretrained parameters will be loaded. And you can modified the training 
-script to load your own pretrained parameters or you can implement your own base encoder stage. 
-You may call the following script to train your own model
+In the final training the epoches are 40000, batch size 2. Besides, all training and validation parametes are listed in the global_configuration/config.py
+
+For the encoder stage the vgg16 is used, which need to be download are moved in the data folder [VGG16](https://github.com/tensorflow/models/tree/master/research/slim#pre-trained-models). According to [MaybeShewill](https://github.com/MaybeShewill-CV/lanenet-lane-detection), also a dense model can be used. To start the training process the following command must be execuded:
 
 ```
 python tools/train_lanenet.py --net vgg --dataset_dir data/training_data_example/
@@ -78,13 +72,39 @@ You can also continue the training process from the snapshot by
 python tools/train_lanenet.py --net vgg --dataset_dir data/training_data_example/ --weights_path path/to/your/last/checkpoint
 ```
 
-You may monitor the training process using tensorboard tools
+After the training is finished the following files are generated under */model*, which are used for inference:
+- .cpkf file
+- .metadata file
+- .model file
 
-During my experiment the `Total loss` drops as follows:  
-![Training loss](/data/source_image/total_loss.png)
+#### Export model
+The above-mentioned files describe the entire lanenet model that must be exported to a form that is
+accessible for any mobile application. The process used for this is called "freezing". When freezing the model, all required elements, for example, graph, weights, are identified and saved in a single file.
 
-The `Binary Segmentation loss` drops as follows:  
-![Training binary_seg_loss](/data/source_image/binary_seg_loss.png)
+First, a graph.pb must be generated. For this, the test script was modified to automatically generate a graph.pb.To generate the file use the *test_lanenet_with_pb_extraction.py* instead of test_lanenet.py
 
-The `Instance Segmentation loss` drops as follows:  
-![Training instance_seg_loss](/data/source_image/instance_seg_loss.png)
+When a graph.pb is generated and the output nodes names were identified, the model is frozen with the
+following command:
+
+```
+python3 -m tensorflow.python.tools.freeze_graph
+--input_graph graph.pb
+--input_checkpoint path/to/model
+--output_graph graph_frozen.pb
+--output_node_names=
+'lanenet_model/inference/decode/score_final/score_final,
+lanenet_model/pix_embedding_relu'
+```
+
+Since the network is only used for inference, an optimization of the freezed_graph.pb is performed. This optimization removes the operations which have no influence on the result of the network and reduces the amount of required computation when the network is used on a mobile device.
+
+```
+python3 -m tensorflow.python.tools.optimize_for_inference
+--input graph_frozen.pb --output graph_optmized.pb
+--input_names='input_tensor'
+--output_names=
+'lanenet_model/inference/decode/score_final/score_final,
+lanenet_model/pix_embedding_relu'
+```
+
+The result is a binary file named graph_optimized.pb, which can be load with the tensorflow API for mobile devices.
