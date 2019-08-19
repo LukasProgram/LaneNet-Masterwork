@@ -1,6 +1,6 @@
 # LaneNet-Lane-Detection 
 A Deep Neural Network for real time lane detection mainly based on the paper https://arxiv.org/abs/1802.05591.
-This implementation is an extension of [MaybeShewill](https://github.com/MaybeShewill-CV/lanenet-lane-detection),that uses as input data images generated from the simulation program [Speed Dreams](http://www.speed-dreams.org/)
+This implementation is an extension of [MaybeShewill](https://github.com/MaybeShewill-CV/lanenet-lane-detection), that uses as input data images generated from the simulation program [Speed Dreams](http://www.speed-dreams.org/)
 
 ## Installation
 This software has been tested on ubuntu 16.04(x64), python3.5, cuda-10.0, cudnn-7.4.1.5 with a RTX-2080 GPU and a TITAN V. 
@@ -24,7 +24,7 @@ The results are as follows:
 
 `Test Input Image`
 
-![Test Input](/data/sample_files/src_image.jpg)
+![Test Input](/data/sample_files/src_image.png)
 
 `Test Lane Binary Segmentation Image`
 
