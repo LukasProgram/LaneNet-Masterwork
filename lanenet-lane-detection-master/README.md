@@ -32,11 +32,11 @@ The results are as follows:
 
 `Test Lane Instance Segmentation Image`
 
-![Test Lane_Instance_Seg](data/sample_files/mask_iamge.png)
+![Test Lane_Instance_Seg](data/sample_files/mask_image.png)
 
 `Test Lane Instance Embedding Image`
 
-![Test Lane_Embedding](data/source_image/instance_image.png)
+![Test Lane_Embedding](data/sample_files/instance_image.png)
 
 If you want to test the model on a whole dataset you may call
 ```
