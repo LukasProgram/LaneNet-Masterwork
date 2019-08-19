@@ -13,34 +13,30 @@ pip3 install -r requirements.txt
 In order to test the network download the trained lanenet model weights files from [model_weights](www.google.de).
 Move the file in the folder model/speed_dreams
 
-Testing a single image on the trained model can be executed with the following command
+Testing a single image on the trained model can be executed with the following command:
 
 ```
 python tools/test_lanenet.py --is_batch False --batch_size 1 
 --weights_path path/to/your/model_weights_file 
---image_path data/tusimple_test_image/0.jpg
+--image_path data/sample_file/src_image_org.png
 ```
 The results are as follows:
 
 `Test Input Image`
 
-![Test Input](/data/tusimple_test_image/0.jpg)
-
-`Test Lane Mask Image`
-
-![Test Lane_Mask](/data/source_image/lanenet_mask_result.png)
+![Test Input](/data/sample_files/src_image.jpg)
 
 `Test Lane Binary Segmentation Image`
 
-![Test Lane_Binary_Seg](/data/source_image/lanenet_binary_seg.png)
+![Test Lane_Binary_Seg](/data/sample_files/binary_image.png)
 
 `Test Lane Instance Segmentation Image`
 
-![Test Lane_Instance_Seg](/data/source_image/lanenet_instance_seg.png)
+![Test Lane_Instance_Seg](/data/sample_files/mask_iamge.png)
 
 `Test Lane Instance Embedding Image`
 
-![Test Lane_Embedding](/data/source_image/lanenet_embedding.png)
+![Test Lane_Embedding](/data/source_image/instance_image.png)
 
 If you want to test the model on a whole dataset you may call
 ```
