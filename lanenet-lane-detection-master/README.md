@@ -1,33 +1,19 @@
-# LaneNet-Lane-Detection
-Use tensorflow to implement a Deep Neural Network for real time lane detection mainly based on the IEEE IV conference 
-paper "Towards End-to-End Lane Detection: an Instance Segmentation Approach".You can refer to their paper for details 
-https://arxiv.org/abs/1802.05591. This model consists of a encoder-decoder stage, binary semantic segmentation stage 
-and instance semantic segmentation using discriminative loss function for real time lane detection task.
-
-The main network architecture is as follows:
-
-`Network Architecture`
-![NetWork_Architecture](/data/source_image/network_architecture.png)
+# LaneNet-Lane-Detection 
+A Deep Neural Network for real time lane detection mainly based on the paper https://arxiv.org/abs/1802.05591.
+This implementation is an extension of [MaybeShewill](https://github.com/MaybeShewill-CV/lanenet-lane-detection),that uses as input data images generated from the simulation program [Speed Dreams](http://www.speed-dreams.org/)
 
 ## Installation
-This software has only been tested on ubuntu 16.04(x64), python3.5, cuda-9.0, cudnn-7.0 with a GTX-1070 GPU. 
-To install this software you need tensorflow 1.10.0 and other version of tensorflow has not been tested but I think 
-it will be able to work properly in tensorflow above version 1.10. Other required package you may install them by
-
+This software has been tested on ubuntu 16.04(x64), python3.5, cuda-10.0, cudnn-7.4.1.5 with a RTX-2080 GPU and a TITAN V. 
+To install this software you need at least tensorflow 1.10.0 or higher (works for 1.11 and 1.12 as well)
 ```
 pip3 install -r requirements.txt
 ```
 
 ## Test model
-In this repo I uploaded a model trained on tusimple lane dataset [Tusimple_Lane_Detection](http://benchmark.tusimple.ai/#/).
-The deep neural network inference part can achieve around a 50fps which is similar to the description in the paper. But
-the input pipeline I implemented now need to be improved to achieve a real time lane detection system.
+In order to test the network download the trained lanenet model weights files from [model_weights](www.google.de).
+Move the file in the folder model/speed_dreams
 
-The trained lanenet model weights files are stored in 
-[new_lanenet_model_file](https://www.dropbox.com/sh/tnsf0lw6psszvy4/AAA81r53jpUI3wLsRW6TiPCya?dl=0). You can 
-download the model and put them in folder model/tusimple_lanenet/
-
-You can test a single image on the trained model as follows
+Testing a single image on the trained model can be executed with the following command
 
 ```
 python tools/test_lanenet.py --is_batch False --batch_size 1 
