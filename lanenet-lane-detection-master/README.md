@@ -90,11 +90,11 @@ After the training is finished the following files are generated under */model*,
 - .metadata file
 - .model file
 
-#### Export model
+## Export model
 The above-mentioned files describe the entire lanenet model that must be exported to a form that is
 accessible for any mobile application. The process used for this is called "freezing". When freezing the model, all required elements, for example, graph, weights, are identified and saved in a single file.
 
-First, a graph.pb must be generated. For this, the test script was modified to automatically generate a graph.pb.To generate the file use the *test_lanenet_with_pb_extraction.py* instead of test_lanenet.py
+First, a graph.pb must be generated. For this, the test script was modified to automatically generate a graph.pb.To generate the file use the *test_lanenet_with_pb_extraction.py* instead of *test_lanenet.py*
 
 When a graph.pb is generated and the output nodes names were identified, the model is frozen with the
 following command:
