@@ -121,3 +121,8 @@ lanenet_model/pix_embedding_relu'
 ```
 
 The result is a binary file named graph_optimized.pb, which can be load with the tensorflow API for mobile devices. Our inference graph files are available here [graph_weights](https://nextcloud.os.in.tum.de/s/graph_files)
+
+## Future Work
+
+Recently the LaneNet implementation was updated. In order to allow a better comparison of model weights in the future, the same dataset was traninert with the new implementation. The model weights are available [here](https://nextcloud.os.in.tum.de/s/updated_lanenet_model_weights)
+
