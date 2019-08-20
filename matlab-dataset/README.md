@@ -39,7 +39,7 @@ After all three programs are integrated, the following steps must be executed to
 12. Export the labeled data into the workspace  (gTruth file)
 13. Run the IntersectionFinder.m to generate a JSON file
 
-If problems occur, visit the [GTL]((https://de.mathworks.com/help/driving/examples/automate-ground-truth-labeling-of-lane-boundaries.html)) page, which describes some steps in more detail.
+If problems occur, visit the [GTL](https://de.mathworks.com/help/driving/examples/automate-ground-truth-labeling-of-lane-boundaries.html) page, which describes some steps in more detail.
 
 ## Refinement
 The ground truth file in [TuSimple](https://github.com/TuSimple/tusimple-benchmark/tree/master/doc/lane_detection) has an atypical JSON form which also has to be adapted for the generated JSON file. Therefore, the *generate_label_data_for_training.py* script must be executed, which takes as input the intersection data json from the labeling and outputs a label_data.json. Both files must be located in the same folder.
