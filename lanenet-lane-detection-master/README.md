@@ -68,7 +68,7 @@ python3 generate_speedDreams_dataset.py
 ```
 
 #### Train model
-In the final training the epoches are 40000, batch size 2. Besides, all training and validation parametes are listed in the global_configuration/config.py
+In the final training the epoches are 40000, batch size 2. Besides, all training and validation parametes are listed in the config/global_config.py
 
 For the encoder stage the [VGG16](https://github.com/tensorflow/models/tree/master/research/slim#pre-trained-models) is used, which need to be download are moved in the data folder. According to [MaybeShewill](https://github.com/MaybeShewill-CV/lanenet-lane-detection), also a dense model can be used. To start the training process the following command must be execuded:
 
