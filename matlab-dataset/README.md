@@ -13,7 +13,13 @@ After creating a dataset from each racetrack, all the images are merged together
 
 In our project, all images are merged together before the labeling and also randomized to reduce the likelihood of successive images side by side. The randomizing and renaming tasks of all files is executed with the scripts located in tools.
 
-
+In order to execute the following scripts, the files need to be located in the same folder as the dataset.
+```
+python3 randomizing.py
+```
+```
+python3 renaming.py
+```
 ## Data Labeling
 Labeling requires three programs.
 -  [MATLAB](https://de.mathworks.com/products/matlab.html)
@@ -25,7 +31,7 @@ After all three programs are integrated, the following steps must be executed to
 1. Run MATLAB and the Automated Driving Toolbox
 2. Prepare the Lane Detection [Automation Class](https://de.mathworks.com/help/driving/examples/automate-ground-truth-labeling-of-lane-boundaries.html)
 3. Load both files (cameraParameters.m , IntersectionFinder.m)
-4. Run the script cameraPerameters.m to load all parameters into the MATLAB workspace
+4. Run the script cameraParameters.m to load all parameters into the MATLAB workspace
 5  Run the Ground Truth Labeler application
 6. Load an image sequence (the folder with the dataset)
 7. Create a [ROI label definition](pictures/roi.png) 
